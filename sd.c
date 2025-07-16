@@ -1,9 +1,12 @@
 // See LICENSE.Sifive for license details.
 #include <stdint.h>
+#include <stddef.h>
 
 #include <platform.h>
 
 #include "common.h"
+#include "diskio.h"
+#include "ff.h"
 
 #define DEBUG
 #include "kprintf.h"
@@ -17,6 +20,12 @@
 
 // The sector at which the BBL partition starts
 #define BBL_PARTITION_START_SECTOR 34
+
+// File system read chunk size
+#define FS_READ_SIZE 4096
+
+// FAT filesystem work area
+FATFS FatFs;
 
 #ifndef TL_CLK
 #error Must define TL_CLK
@@ -176,52 +185,65 @@ static const char spinner[] = { '-', '/', '|', '\\' };
 
 static int copy(void)
 {
+	FIL fil;                // File object
+	FRESULT fr;             // FatFs return code
 	volatile uint8_t *p = (void *)(PAYLOAD_DEST);
-	long i = PAYLOAD_SIZE;
+	uint8_t *buf = (uint8_t *)p;
+	uint32_t fsize = 0;     // file size count
+	uint32_t br;            // Read count
 	int rc = 0;
 
-	dputs("CMD18");
-
-	kprintf("LOADING 0x%x B PAYLOAD\r\n", PAYLOAD_SIZE_B);
+	kprintf("LOADING 0x%x B PAYLOAD FROM FILE\r\n", PAYLOAD_SIZE_B);
 	kprintf("LOADING  ");
 
-	REG32(spi, SPI_REG_SCKDIV) = SPI_DIV;
-	if (sd_cmd(0x52, BBL_PARTITION_START_SECTOR, 0xE1) != 0x00) {
-		sd_cmd_end();
+	// Mount the filesystem
+	if(f_mount(&FatFs, "", 1)) {
+		kputs("Fail to mount SD filesystem!\r\n");
 		return 1;
 	}
+
+	// Open the payload file
+	fr = f_open(&fil, "payload.bin", FA_READ);
+	if (fr) {
+		kputs("Failed to open payload.bin!\r\n");
+		f_mount(NULL, "", 1); // unmount
+		return (int)fr;
+	}
+
+	// Read file into memory
+	uint32_t total_read = 0;
 	do {
-		uint16_t crc, crc_exp;
-		long n;
-
-		crc = 0;
-		n = SECTOR_SIZE_B;
-		while (sd_dummy() != 0xFE);
-		do {
-			uint8_t x = sd_dummy();
-			*p++ = x;
-			crc = crc16_round(crc, x);
-		} while (--n > 0);
-
-		crc_exp = ((uint16_t)sd_dummy() << 8);
-		crc_exp |= sd_dummy();
-
-		if (crc != crc_exp) {
-			kputs("\b- CRC mismatch ");
-			rc = 1;
+		fr = f_read(&fil, buf, FS_READ_SIZE, &br);  // Read a chunk of file
+		buf += br;
+		fsize += br;
+		total_read += br;
+		
+		// Update spinner
+		if (SPIN_UPDATE(total_read >> 12)) { // Update every 4KB
+			kputc('\b');
+			kputc(spinner[SPIN_INDEX(total_read >> 12)]);
+		}
+		
+		// Limit to maximum payload size
+		if (total_read >= PAYLOAD_SIZE_B) {
 			break;
 		}
+	} while(!(fr || br == 0));
 
-		if (SPIN_UPDATE(i)) {
-			kputc('\b');
-			kputc(spinner[SPIN_INDEX(i)]);
-		}
-	} while (--i > 0);
-	sd_cmd_end();
+	kprintf("\b Loaded %d bytes from payload.bin\r\n", fsize);
 
-	sd_cmd(0x4C, 0, 0x01);
-	sd_cmd_end();
-	kputs("\b ");
+	// Close the file
+	if(f_close(&fil)) {
+		kputs("fail to close file!\r\n");
+		rc = 1;
+	}
+	
+	// Unmount filesystem
+	if(f_mount(NULL, "", 1)) {
+		kputs("fail to umount filesystem!\r\n");
+		rc = 1;
+	}
+
 	return rc;
 }
 

@@ -17,7 +17,7 @@ default: elf bin dump
 elf := $(BUILD_DIR)/sdboot.elf
 $(elf): head.S kprintf.c sd.c
 	mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -DTL_CLK="$(PBUS_CLK)UL" $(LFLAGS) -o $@ head.S sd.c kprintf.c -Wl,-Map=output.map
+	$(CC) $(CFLAGS) -DTL_CLK="$(PBUS_CLK)UL" $(LFLAGS) -o $@ head.S sd.c kprintf.c ff.c diskio.c spi.c string.c -Wl,-Map=output.map
 
 .PHONY: elf
 elf: $(elf)
