@@ -311,62 +311,37 @@ static int sd_read_block(uint32_t sector, uint8_t *data)
 }
 
 // --- SD卡读写测试 ---
-static int sd_test_rw(uint32_t sector)
-{
-    uint8_t wbuf[SECTOR_SIZE_B];
-    uint8_t rbuf[SECTOR_SIZE_B];
-    int i, rc = 0;
-    // 填充写入数据
-    for (i = 0; i < SECTOR_SIZE_B; ++i) wbuf[i] = (uint8_t)(i ^ 0xA5);
-    // 写
-    if (sd_write_block(sector, wbuf)) {
-        kputs("sd_test_rw: write fail\r\n");
-        return 1;
-    }
-    // 读
-    if (sd_read_block(sector, rbuf)) {
-        kputs("sd_test_rw: read fail\r\n");
-        return 2;
-    }
-    // 校验
-    for (i = 0; i < SECTOR_SIZE_B; ++i) {
-        if (wbuf[i] != rbuf[i]) {
-            kprintf("sd_test_rw: mismatch at %d: %02x != %02x\r\n", i, wbuf[i], rbuf[i]);
-            rc = 3;
-            break;
-        }
-    }
-    if (rc == 0) kputs("sd_test_rw: PASS\r\n");
-    else kputs("sd_test_rw: FAIL\r\n");
-    return rc;
-}
+// 删除测试函数
 
 int main(void)
 {
-	REG32(uart, UART_REG_TXCTRL) = UART_TXEN;
+	FRESULT fr;
+	int res;
 
-	kputs("INIT");
+	// 初始化 SPI
+	spi_init();
+
+	// 初始化 SD 卡
 	sd_poweron();
 	if (sd_cmd0() ||
 	    sd_cmd8() ||
 	    sd_acmd41() ||
 	    sd_cmd58() ||
 	    sd_cmd16()) {
-		kputs("ERROR");
 		return 1;
 	}
-// --- 调用SD卡读写测试 ---
-	sd_test_rw(BBL_PARTITION_START_SECTOR + 10); // 测试扇区可根据实际情况调整
 
-	// 继续原有copy流程
+	// 挂载文件系统
+	fr = f_mount(&FatFs, "", 1);
+	if (fr) {
+		return 1;
+	}
+
+	// 复制文件
 	if (copy()) {
-		kputs("ERROR");
 		return 1;
 	}
 
-	kputs("BOOT");
-
-	__asm__ __volatile__ ("fence.i" : : : "memory");
-
+	// 完成
 	return 0;
 }
