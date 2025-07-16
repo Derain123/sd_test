@@ -8,55 +8,14 @@
 / Function Configurations
 /---------------------------------------------------------------------------*/
 
-// #define _USE_MEMSET_MEMCPY  0 
-
-#define _FS_READONLY	0
-/* This option switches read-only configuration. (0:Read/Write or 1:Read-only)
-/  Read-only configuration removes writing API functions, f_write(), f_sync(),
-/  f_unlink(), f_mkdir(), f_chmod(), f_rename(), f_truncate(), f_getfree()
-/  and optional writing functions as well. */
-
-
-#define _FS_MINIMIZE	0
-/* This option defines minimization level to remove some basic API functions.
-/
-/   0: All basic functions are enabled.
-/   1: f_stat(), f_getfree(), f_unlink(), f_mkdir(), f_chmod(), f_utime(),
-/      f_truncate() and f_rename() function are removed.
-/   2: f_opendir(), f_readdir() and f_closedir() are removed in addition to 1.
-/   3: f_lseek() function is removed in addition to 2. */
-
-
-#define	_USE_STRFUNC	0
-/* This option switches string functions, f_gets(), f_putc(), f_puts() and
-/  f_printf().
-/
-/  0: Disable string functions.
-/  1: Enable without LF-CRLF conversion.
-/  2: Enable with LF-CRLF conversion. */
-
-
-#define _USE_FIND		0
-/* This option switches filtered directory read feature and related functions,
-/  f_findfirst() and f_findnext(). (0:Disable or 1:Enable) */
-
-
-#define	_USE_MKFS		0
-/* This option switches f_mkfs() function. (0:Disable or 1:Enable) */
-
-
-#define	_USE_FASTSEEK	0
-/* This option switches fast seek feature. (0:Disable or 1:Enable) */
-
-
-#define _USE_LABEL		1
-/* This option switches volume label functions, f_getlabel() and f_setlabel().
-/  (0:Disable or 1:Enable) */
-
-
-#define	_USE_FORWARD	0
-/* This option switches f_forward() function. (0:Disable or 1:Enable)
-/  To enable it, also _FS_TINY need to be set to 1. */
+#define _FS_READONLY 1  /* 设为只读模式 */
+#define _FS_MINIMIZE 3  /* 最大程度精简功能 */
+#define _USE_STRFUNC 0  /* 禁用字符串函数 */
+#define _USE_FIND 0     /* 禁用查找功能 */
+#define _USE_MKFS 0     /* 禁用格式化功能 */
+#define _USE_FASTSEEK 0 /* 禁用快速查找 */
+#define _USE_LABEL 0    /* 禁用卷标功能 */
+#define _USE_FORWARD 0  /* 禁用数据流功能 */
 
 
 /*---------------------------------------------------------------------------/
@@ -194,41 +153,10 @@
 / System Configurations
 /---------------------------------------------------------------------------*/
 
-#define	_FS_TINY	0
-/* This option switches tiny buffer configuration. (0:Normal or 1:Tiny)
-/  At the tiny configuration, size of the file object (FIL) is reduced _MAX_SS
-/  bytes. Instead of private sector buffer eliminated from the file object,
-/  common sector buffer in the file system object (FATFS) is used for the file
-/  data transfer. */
-
-
-#define _FS_NORTC	1
-#define _NORTC_MON	1
-#define _NORTC_MDAY	1
-#define _NORTC_YEAR	2015
-/* The _FS_NORTC option switches timestamp feature. If the system does not have
-/  an RTC function or valid timestamp is not needed, set _FS_NORTC to 1 to disable
-/  the timestamp feature. All objects modified by FatFs will have a fixed timestamp
-/  defined by _NORTC_MON, _NORTC_MDAY and _NORTC_YEAR.
-/  When timestamp feature is enabled (_FS_NORTC == 0), get_fattime() function need
-/  to be added to the project to read current time form RTC. _NORTC_MON,
-/  _NORTC_MDAY and _NORTC_YEAR have no effect. 
-/  These options have no effect at read-only configuration (_FS_READONLY == 1). */
-
-
-#define	_FS_LOCK	0
-/* The _FS_LOCK option switches file lock feature to control duplicated file open
-/  and illegal operation to open objects. This option must be 0 when _FS_READONLY
-/  is 1.
-/
-/  0:  Disable file lock feature. To avoid volume corruption, application program
-/      should avoid illegal open, remove and rename to the open objects.
-/  >0: Enable file lock feature. The value defines how many files/sub-directories
-/      can be opened simultaneously under file lock control. Note that the file
-/      lock feature is independent of re-entrancy. */
-
-
-#define _FS_REENTRANT	0
+#define _FS_TINY 1     /* 使用精简模式 */
+// #define _FS_NORTC 1    /* 禁用时间戳功能 */
+#define _FS_LOCK 0     /* 禁用文件锁 */
+#define _FS_REENTRANT 0 /* 禁用重入支持 */
 #define _FS_TIMEOUT		1000
 #define	_SYNC_t			HANDLE
 /* The _FS_REENTRANT option switches the re-entrancy (thread safe) of the FatFs
