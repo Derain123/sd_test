@@ -9,7 +9,7 @@
 #include "kprintf.h"
 
 // Total payload in B
-#define PAYLOAD_SIZE_B (1 << 20) // default: 30MiB
+#define PAYLOAD_SIZE_B (30 << 20) // default: 30MiB
 // A sector is 512 bytes, so (1 << 11) * 512B = 1 MiB
 #define SECTOR_SIZE_B 512
 // Payload size in # of sectors
@@ -22,7 +22,16 @@
 #error Must define TL_CLK
 #endif
 
-#define F_CLK TL_CLK
+#define F_CLK 		(TL_CLK)
+
+// SPI SCLK frequency, in kHz
+// We are using the 25MHz High Speed mode. If this speed is not supported by the
+// SD card, consider changing to the Default Speed mode (12.5 MHz).
+#define SPI_CLK 	25000
+
+// SPI clock divisor value
+// @see https://ucb-bar.gitbook.io/baremetal-ide/baremetal-ide/using-peripheral-devices/sifive-ips/serial-peripheral-interface-spi
+#define SPI_DIV 	(((F_CLK * 1000) / SPI_CLK) / 2 - 1)
 
 static volatile uint32_t * const spi = (void *)(SPI_CTRL_ADDR);
 
@@ -79,7 +88,9 @@ static inline void sd_cmd_end(void)
 static void sd_poweron(void)
 {
 	long i;
-	REG32(spi, SPI_REG_SCKDIV) = (F_CLK / 300000UL);
+	// HACK: frequency change
+
+	REG32(spi, SPI_REG_SCKDIV) = SPI_DIV;
 	REG32(spi, SPI_REG_CSMODE) = SPI_CSMODE_OFF;
 	for (i = 10; i > 0; i--) {
 		sd_dummy();
@@ -171,12 +182,10 @@ static int copy(void)
 
 	dputs("CMD18");
 
-	kprintf("LOADING 0x%xB PAYLOAD\r\n", PAYLOAD_SIZE_B);
+	kprintf("LOADING 0x%x B PAYLOAD\r\n", PAYLOAD_SIZE_B);
 	kprintf("LOADING  ");
 
-	// TODO: Speed up SPI freq. (breaks between these two values)
-	//REG32(spi, SPI_REG_SCKDIV) = (F_CLK / 16666666UL);
-	REG32(spi, SPI_REG_SCKDIV) = (F_CLK / 5000000UL);
+	REG32(spi, SPI_REG_SCKDIV) = SPI_DIV;
 	if (sd_cmd(0x52, BBL_PARTITION_START_SECTOR, 0xE1) != 0x00) {
 		sd_cmd_end();
 		return 1;
@@ -216,6 +225,100 @@ static int copy(void)
 	return rc;
 }
 
+// --- SD卡单块写测试 ---
+static int sd_write_block(uint32_t sector, const uint8_t *data)
+{
+    int rc = 0;
+    uint16_t crc = 0;
+    int i;
+    // CMD24: 写单块
+    if (sd_cmd(0x58, sector, 0x01) != 0x00) {
+        sd_cmd_end();
+        kputs("sd_write_block: cmd24 fail\r\n");
+        return 1;
+    }
+    // 发送数据起始令牌
+    spi_xfer(0xFE);
+    // 发送数据
+    crc = 0;
+    for (i = 0; i < SECTOR_SIZE_B; ++i) {
+        spi_xfer(data[i]);
+        crc = crc16_round(crc, data[i]);
+    }
+    // 发送CRC
+    spi_xfer(crc >> 8);
+    spi_xfer(crc & 0xFF);
+    // 检查数据响应
+    uint8_t resp = sd_dummy();
+    if ((resp & 0x1F) != 0x05) {
+        kputs("sd_write_block: data reject\r\n");
+        rc = 2;
+    }
+    // 等待写完成
+    while (sd_dummy() == 0) ;
+    sd_cmd_end();
+    return rc;
+}
+
+// --- SD卡单块读测试 ---
+static int sd_read_block(uint32_t sector, uint8_t *data)
+{
+    int rc = 0;
+    uint16_t crc, crc_exp;
+    int i;
+    if (sd_cmd(0x51, sector, 0x01) != 0x00) { // CMD17: 读单块
+        sd_cmd_end();
+        kputs("sd_read_block: cmd17 fail\r\n");
+        return 1;
+    }
+    while (sd_dummy() != 0xFE);
+    crc = 0;
+    for (i = 0; i < SECTOR_SIZE_B; ++i) {
+        uint8_t x = sd_dummy();
+        data[i] = x;
+        crc = crc16_round(crc, x);
+    }
+    crc_exp = ((uint16_t)sd_dummy() << 8);
+    crc_exp |= sd_dummy();
+    if (crc != crc_exp) {
+        kputs("sd_read_block: CRC mismatch\r\n");
+        rc = 2;
+    }
+    sd_cmd_end();
+    return rc;
+}
+
+// --- SD卡读写测试 ---
+static int sd_test_rw(uint32_t sector)
+{
+    uint8_t wbuf[SECTOR_SIZE_B];
+    uint8_t rbuf[SECTOR_SIZE_B];
+    int i, rc = 0;
+    // 填充写入数据
+    for (i = 0; i < SECTOR_SIZE_B; ++i) wbuf[i] = (uint8_t)(i ^ 0xA5);
+    // 写
+    if (sd_write_block(sector, wbuf)) {
+        kputs("sd_test_rw: write fail\r\n");
+        return 1;
+    }
+    // 读
+    if (sd_read_block(sector, rbuf)) {
+        kputs("sd_test_rw: read fail\r\n");
+        return 2;
+    }
+    // 校验
+    for (i = 0; i < SECTOR_SIZE_B; ++i) {
+        if (wbuf[i] != rbuf[i]) {
+            kprintf("sd_test_rw: mismatch at %d: %02x != %02x\r\n", i, wbuf[i], rbuf[i]);
+            rc = 3;
+            break;
+        }
+    }
+    if (rc == 0) kputs("sd_test_rw: PASS\r\n");
+    else kputs("sd_test_rw: FAIL\r\n");
+    return rc;
+}
+
 int main(void)
 {
 	REG32(uart, UART_REG_TXCTRL) = UART_TXEN;
@@ -226,8 +329,15 @@ int main(void)
 	    sd_cmd8() ||
 	    sd_acmd41() ||
 	    sd_cmd58() ||
-	    sd_cmd16() ||
-	    copy()) {
+	    sd_cmd16()) {
+		kputs("ERROR");
+		return 1;
+	}
+// --- 调用SD卡读写测试 ---
+	sd_test_rw(BBL_PARTITION_START_SECTOR + 10); // 测试扇区可根据实际情况调整
+
+	// 继续原有copy流程
+	if (copy()) {
 		kputs("ERROR");
 		return 1;
 	}
