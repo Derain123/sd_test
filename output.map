@@ -8,101 +8,100 @@ memory_mem       0x0000000080000000 0x0000000040000000 xrw
 
 Linker script and memory map
 
-LOAD /tmp/cc5rzya3.o
-LOAD /tmp/ccMsBr6w.o
-LOAD /tmp/ccyN3v3j.o
-LOAD /tmp/ccTCoqjY.o
-LOAD /tmp/cclkRbwD.o
-LOAD /tmp/ccOlH8Qg.o
-LOAD /tmp/ccOf8C6Y.o
+LOAD /tmp/ccJ8ARcN.o
+LOAD /tmp/ccAsuLGl.o
+LOAD /tmp/ccGo7B4I.o
+LOAD /tmp/cc7XnT1P.o
+LOAD /tmp/ccYMsAy0.o
+LOAD /tmp/ccYR17Is.o
+LOAD /tmp/cc02Vz3f.o
                 [!provide]                        PROVIDE (_ram = ORIGIN (memory_mem))
                 [!provide]                        PROVIDE (_ram_end = (_ram + LENGTH (memory_mem)))
 
-.text           0x0000000000010000     0x314c
+.text           0x0000000000010000     0x2db0
                 [!provide]                        PROVIDE (_ftext = .)
  *(.text.init)
- .text.init     0x0000000000010000       0x94 /tmp/cc5rzya3.o
+ .text.init     0x0000000000010000       0x94 /tmp/ccJ8ARcN.o
                 0x0000000000010000                _prog_start
  *(.text.unlikely .text.unlikely.*)
  *(.text .text.* .gnu.linkonce.t.*)
- .text          0x0000000000010094        0x0 /tmp/cc5rzya3.o
- .text          0x0000000000010094      0x490 /tmp/ccMsBr6w.o
- .text.startup  0x0000000000010524      0x484 /tmp/ccMsBr6w.o
-                0x0000000000010524                main
- .text          0x00000000000109a8      0x1e0 /tmp/ccyN3v3j.o
-                0x00000000000109a8                kputs
-                0x00000000000109f8                kprintf
- .text          0x0000000000010b88     0x18ec /tmp/ccTCoqjY.o
-                0x0000000000011a00                clust2sect
-                0x0000000000011a30                get_fat
-                0x0000000000011a4c                f_mount
-                0x0000000000011afc                f_open
-                0x0000000000011c38                f_read
-                0x0000000000011f28                f_close
-                0x0000000000011f98                f_chdrive
-                0x0000000000011fd8                f_chdir
-                0x00000000000120ac                f_getcwd
- .text          0x0000000000012474      0xb08 /tmp/cclkRbwD.o
-                0x0000000000012800                disk_initialize
-                0x00000000000129ec                disk_status
-                0x0000000000012a04                disk_read
-                0x0000000000012ae8                disk_write
-                0x0000000000012c0c                disk_ioctl
- .text          0x0000000000012f7c      0x13c /tmp/ccOlH8Qg.o
-                0x0000000000012f7c                spi_init
-                0x0000000000012fb0                spi_disable
-                0x0000000000012fcc                spi_send
-                0x0000000000012ff0                spi_send_multi
-                0x0000000000013028                spi_recv_multi
-                0x0000000000013090                spi_select_slave
-                0x00000000000130a4                spi_deselect_slave
- .text          0x00000000000130b8       0x54 /tmp/ccOf8C6Y.o
-                0x00000000000130b8                memset
-                0x00000000000130e8                memcpy
+ .text          0x0000000000010094        0x0 /tmp/ccJ8ARcN.o
+ .text          0x0000000000010094       0xf8 /tmp/ccAsuLGl.o
+ .text.startup  0x000000000001018c      0x480 /tmp/ccAsuLGl.o
+                0x000000000001018c                main
+ .text          0x000000000001060c      0x1e0 /tmp/ccGo7B4I.o
+                0x000000000001060c                kputs
+                0x000000000001065c                kprintf
+ .text          0x00000000000107ec     0x18ec /tmp/cc7XnT1P.o
+                0x0000000000011664                clust2sect
+                0x0000000000011694                get_fat
+                0x00000000000116b0                f_mount
+                0x0000000000011760                f_open
+                0x000000000001189c                f_read
+                0x0000000000011b8c                f_close
+                0x0000000000011bfc                f_chdrive
+                0x0000000000011c3c                f_chdir
+                0x0000000000011d10                f_getcwd
+ .text          0x00000000000120d8      0xb08 /tmp/ccYMsAy0.o
+                0x0000000000012464                disk_initialize
+                0x0000000000012650                disk_status
+                0x0000000000012668                disk_read
+                0x000000000001274c                disk_write
+                0x0000000000012870                disk_ioctl
+ .text          0x0000000000012be0      0x13c /tmp/ccYR17Is.o
+                0x0000000000012be0                spi_init
+                0x0000000000012c14                spi_disable
+                0x0000000000012c30                spi_send
+                0x0000000000012c54                spi_send_multi
+                0x0000000000012c8c                spi_recv_multi
+                0x0000000000012cf4                spi_select_slave
+                0x0000000000012d08                spi_deselect_slave
+ .text          0x0000000000012d1c       0x54 /tmp/cc02Vz3f.o
+                0x0000000000012d1c                memset
+                0x0000000000012d4c                memcpy
                 [!provide]                        PROVIDE (_etext = .)
-                0x000000000001314c                . = (. + 0x40)
- *fill*         0x000000000001310c       0x40 
+                0x0000000000012db0                . = (. + 0x40)
+ *fill*         0x0000000000012d70       0x40 
 
-.eh_frame       0x0000000000013150        0x0
+.eh_frame       0x0000000000012db0        0x0
  *(.eh_frame)
 
-.srodata        0x0000000000013150        0x4
+.srodata        0x0000000000012db0        0x4
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
  *(.srodata.cst2)
  *(.srodata.*)
- .srodata       0x0000000000013150        0x4 /tmp/ccMsBr6w.o
+ .srodata       0x0000000000012db0        0x4 /tmp/ccAsuLGl.o
 
-.data           0x0000000000013158        0x0
+.data           0x0000000000012db8        0x0
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x0000000000013158        0x0 /tmp/cc5rzya3.o
- .data          0x0000000000013158        0x0 /tmp/ccMsBr6w.o
- .data          0x0000000000013158        0x0 /tmp/ccyN3v3j.o
- .data          0x0000000000013158        0x0 /tmp/ccTCoqjY.o
- .data          0x0000000000013158        0x0 /tmp/cclkRbwD.o
- .data          0x0000000000013158        0x0 /tmp/ccOlH8Qg.o
- .data          0x0000000000013158        0x0 /tmp/ccOf8C6Y.o
+ .data          0x0000000000012db8        0x0 /tmp/ccJ8ARcN.o
+ .data          0x0000000000012db8        0x0 /tmp/ccAsuLGl.o
+ .data          0x0000000000012db8        0x0 /tmp/ccGo7B4I.o
+ .data          0x0000000000012db8        0x0 /tmp/cc7XnT1P.o
+ .data          0x0000000000012db8        0x0 /tmp/ccYMsAy0.o
+ .data          0x0000000000012db8        0x0 /tmp/ccYR17Is.o
+ .data          0x0000000000012db8        0x0 /tmp/cc02Vz3f.o
  *(.tohost)
 
-.sdata          0x0000000000013158        0x1
+.sdata          0x0000000000012db8        0x1
  *(.sdata .sdata.* .gnu.linkonce.s.*)
- .sdata         0x0000000000013158        0x1 /tmp/cclkRbwD.o
+ .sdata         0x0000000000012db8        0x1 /tmp/ccYMsAy0.o
 
-.rodata         0x0000000000013160      0x398
+.rodata         0x0000000000012dc0      0x288
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.8
-                0x0000000000013160      0x24d /tmp/ccMsBr6w.o
-                                        0x255 (size before relaxing)
- *fill*         0x00000000000133ad        0x3 
- .rodata        0x00000000000133b0       0x58 /tmp/ccyN3v3j.o
+                0x0000000000012dc0      0x13d /tmp/ccAsuLGl.o
+ *fill*         0x0000000000012efd        0x3 
+ .rodata        0x0000000000012f00       0x58 /tmp/ccGo7B4I.o
  .rodata.str1.8
-                0x0000000000013408        0xf /tmp/ccTCoqjY.o
- *fill*         0x0000000000013417        0x1 
- .rodata        0x0000000000013418       0xdc /tmp/cclkRbwD.o
+                0x0000000000012f58        0xf /tmp/cc7XnT1P.o
+ *fill*         0x0000000000012f67        0x1 
+ .rodata        0x0000000000012f68       0xdc /tmp/ccYMsAy0.o
  *(.dtb)
- *fill*         0x00000000000134f4        0x4 
- .dtb           0x00000000000134f8        0x0 /tmp/cc5rzya3.o
+ *fill*         0x0000000000013044        0x4 
+ .dtb           0x0000000000013048        0x0 /tmp/ccJ8ARcN.o
                 [!provide]                        PROVIDE (_data = ADDR (.rodata))
                 [!provide]                        PROVIDE (_data_lma = LOADADDR (.rodata))
                 [!provide]                        PROVIDE (_edata = .)
@@ -111,21 +110,21 @@ LOAD /tmp/ccOf8C6Y.o
                 [!provide]                        PROVIDE (_fbss = .)
                 [!provide]                        PROVIDE (__global_pointer$ = (. + 0x7c0))
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
- .sbss          0x0000000080000000        0x4 /tmp/ccTCoqjY.o
- .sbss          0x0000000080000004        0x1 /tmp/cclkRbwD.o
+ .sbss          0x0000000080000000        0x4 /tmp/cc7XnT1P.o
+ .sbss          0x0000000080000004        0x1 /tmp/ccYMsAy0.o
  *fill*         0x0000000080000005        0x3 
- .sbss          0x0000000080000008        0x8 /tmp/ccOlH8Qg.o
+ .sbss          0x0000000080000008        0x8 /tmp/ccYR17Is.o
                 0x0000000080000008                spi_base_ptr
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x0000000080000010        0x0 /tmp/cc5rzya3.o
- .bss           0x0000000080000010      0x22c /tmp/ccMsBr6w.o
+ .bss           0x0000000080000010        0x0 /tmp/ccJ8ARcN.o
+ .bss           0x0000000080000010      0x22c /tmp/ccAsuLGl.o
                 0x0000000080000010                FatFs
- .bss           0x000000008000023c        0x0 /tmp/ccyN3v3j.o
+ .bss           0x000000008000023c        0x0 /tmp/ccGo7B4I.o
  *fill*         0x000000008000023c        0x4 
- .bss           0x0000000080000240       0x10 /tmp/ccTCoqjY.o
- .bss           0x0000000080000250        0x0 /tmp/cclkRbwD.o
- .bss           0x0000000080000250        0x0 /tmp/ccOlH8Qg.o
- .bss           0x0000000080000250        0x0 /tmp/ccOf8C6Y.o
+ .bss           0x0000000080000240       0x10 /tmp/cc7XnT1P.o
+ .bss           0x0000000080000250        0x0 /tmp/ccYMsAy0.o
+ .bss           0x0000000080000250        0x0 /tmp/ccYR17Is.o
+ .bss           0x0000000080000250        0x0 /tmp/cc02Vz3f.o
                 0x0000000080000250                . = ALIGN (0x8)
                 0x0000000080000250                PROVIDE (_ebss = .)
                 [!provide]                        PROVIDE (_end = .)
@@ -139,140 +138,140 @@ OUTPUT(/home/dean/workspace/CODE/chipyard/fpga/src/main/resources/vcu118/sdboot/
 .riscv.attributes
                 0x0000000000000000       0x2a
  .riscv.attributes
-                0x0000000000000000       0x28 /tmp/cc5rzya3.o
+                0x0000000000000000       0x28 /tmp/ccJ8ARcN.o
  .riscv.attributes
-                0x0000000000000028       0x26 /tmp/ccMsBr6w.o
+                0x0000000000000028       0x26 /tmp/ccAsuLGl.o
  .riscv.attributes
-                0x000000000000004e       0x26 /tmp/ccyN3v3j.o
+                0x000000000000004e       0x26 /tmp/ccGo7B4I.o
  .riscv.attributes
-                0x0000000000000074       0x26 /tmp/ccTCoqjY.o
+                0x0000000000000074       0x26 /tmp/cc7XnT1P.o
  .riscv.attributes
-                0x000000000000009a       0x26 /tmp/cclkRbwD.o
+                0x000000000000009a       0x26 /tmp/ccYMsAy0.o
  .riscv.attributes
-                0x00000000000000c0       0x26 /tmp/ccOlH8Qg.o
+                0x00000000000000c0       0x26 /tmp/ccYR17Is.o
  .riscv.attributes
-                0x00000000000000e6       0x26 /tmp/ccOf8C6Y.o
+                0x00000000000000e6       0x26 /tmp/cc02Vz3f.o
 
 .comment        0x0000000000000000       0x1b
- .comment       0x0000000000000000       0x1b /tmp/ccMsBr6w.o
+ .comment       0x0000000000000000       0x1b /tmp/ccAsuLGl.o
                                          0x1c (size before relaxing)
- .comment       0x000000000000001b       0x1c /tmp/ccyN3v3j.o
- .comment       0x000000000000001b       0x1c /tmp/ccTCoqjY.o
- .comment       0x000000000000001b       0x1c /tmp/cclkRbwD.o
- .comment       0x000000000000001b       0x1c /tmp/ccOlH8Qg.o
- .comment       0x000000000000001b       0x1c /tmp/ccOf8C6Y.o
+ .comment       0x000000000000001b       0x1c /tmp/ccGo7B4I.o
+ .comment       0x000000000000001b       0x1c /tmp/cc7XnT1P.o
+ .comment       0x000000000000001b       0x1c /tmp/ccYMsAy0.o
+ .comment       0x000000000000001b       0x1c /tmp/ccYR17Is.o
+ .comment       0x000000000000001b       0x1c /tmp/cc02Vz3f.o
 
-.debug_line     0x0000000000000000     0x6a71
- .debug_line    0x0000000000000000       0x74 /tmp/cc5rzya3.o
- .debug_line    0x0000000000000074     0x166c /tmp/ccMsBr6w.o
- .debug_line    0x00000000000016e0      0x487 /tmp/ccyN3v3j.o
- .debug_line    0x0000000000001b67     0x34ed /tmp/ccTCoqjY.o
- .debug_line    0x0000000000005054     0x1575 /tmp/cclkRbwD.o
- .debug_line    0x00000000000065c9      0x39d /tmp/ccOlH8Qg.o
- .debug_line    0x0000000000006966      0x10b /tmp/ccOf8C6Y.o
+.debug_line     0x0000000000000000     0x614d
+ .debug_line    0x0000000000000000       0x74 /tmp/ccJ8ARcN.o
+ .debug_line    0x0000000000000074      0xd48 /tmp/ccAsuLGl.o
+ .debug_line    0x0000000000000dbc      0x487 /tmp/ccGo7B4I.o
+ .debug_line    0x0000000000001243     0x34ed /tmp/cc7XnT1P.o
+ .debug_line    0x0000000000004730     0x1575 /tmp/ccYMsAy0.o
+ .debug_line    0x0000000000005ca5      0x39d /tmp/ccYR17Is.o
+ .debug_line    0x0000000000006042      0x10b /tmp/cc02Vz3f.o
 
 .debug_line_str
                 0x0000000000000000      0x241
  .debug_line_str
-                0x0000000000000000       0x50 /tmp/cc5rzya3.o
+                0x0000000000000000       0x50 /tmp/ccJ8ARcN.o
  .debug_line_str
-                0x0000000000000050      0x139 /tmp/ccMsBr6w.o
+                0x0000000000000050      0x139 /tmp/ccAsuLGl.o
                                         0x1d5 (size before relaxing)
  .debug_line_str
-                0x0000000000000189       0x78 /tmp/ccyN3v3j.o
+                0x0000000000000189       0x78 /tmp/ccGo7B4I.o
                                         0x1fb (size before relaxing)
  .debug_line_str
-                0x0000000000000201        0xe /tmp/ccTCoqjY.o
+                0x0000000000000201        0xe /tmp/cc7XnT1P.o
                                         0x1d4 (size before relaxing)
  .debug_line_str
-                0x000000000000020f        0xf /tmp/cclkRbwD.o
+                0x000000000000020f        0xf /tmp/ccYMsAy0.o
                                         0x1e1 (size before relaxing)
  .debug_line_str
-                0x000000000000021e        0x6 /tmp/ccOlH8Qg.o
+                0x000000000000021e        0x6 /tmp/ccYR17Is.o
                                         0x177 (size before relaxing)
  .debug_line_str
-                0x0000000000000224       0x1d /tmp/ccOf8C6Y.o
+                0x0000000000000224       0x1d /tmp/cc02Vz3f.o
                                         0x126 (size before relaxing)
 
-.debug_info     0x0000000000000000     0x501b
- .debug_info    0x0000000000000000       0x29 /tmp/cc5rzya3.o
- .debug_info    0x0000000000000029     0x18eb /tmp/ccMsBr6w.o
- .debug_info    0x0000000000001914      0x3a8 /tmp/ccyN3v3j.o
- .debug_info    0x0000000000001cbc     0x1c84 /tmp/ccTCoqjY.o
- .debug_info    0x0000000000003940     0x1366 /tmp/cclkRbwD.o
- .debug_info    0x0000000000004ca6      0x212 /tmp/ccOlH8Qg.o
- .debug_info    0x0000000000004eb8      0x163 /tmp/ccOf8C6Y.o
+.debug_info     0x0000000000000000     0x48ae
+ .debug_info    0x0000000000000000       0x29 /tmp/ccJ8ARcN.o
+ .debug_info    0x0000000000000029     0x117e /tmp/ccAsuLGl.o
+ .debug_info    0x00000000000011a7      0x3a8 /tmp/ccGo7B4I.o
+ .debug_info    0x000000000000154f     0x1c84 /tmp/cc7XnT1P.o
+ .debug_info    0x00000000000031d3     0x1366 /tmp/ccYMsAy0.o
+ .debug_info    0x0000000000004539      0x212 /tmp/ccYR17Is.o
+ .debug_info    0x000000000000474b      0x163 /tmp/cc02Vz3f.o
 
-.debug_abbrev   0x0000000000000000      0xdc7
- .debug_abbrev  0x0000000000000000       0x14 /tmp/cc5rzya3.o
- .debug_abbrev  0x0000000000000014      0x3cb /tmp/ccMsBr6w.o
- .debug_abbrev  0x00000000000003df      0x19d /tmp/ccyN3v3j.o
- .debug_abbrev  0x000000000000057c      0x317 /tmp/ccTCoqjY.o
- .debug_abbrev  0x0000000000000893      0x334 /tmp/cclkRbwD.o
- .debug_abbrev  0x0000000000000bc7      0x121 /tmp/ccOlH8Qg.o
- .debug_abbrev  0x0000000000000ce8       0xdf /tmp/ccOf8C6Y.o
+.debug_abbrev   0x0000000000000000      0xd3c
+ .debug_abbrev  0x0000000000000000       0x14 /tmp/ccJ8ARcN.o
+ .debug_abbrev  0x0000000000000014      0x340 /tmp/ccAsuLGl.o
+ .debug_abbrev  0x0000000000000354      0x19d /tmp/ccGo7B4I.o
+ .debug_abbrev  0x00000000000004f1      0x317 /tmp/cc7XnT1P.o
+ .debug_abbrev  0x0000000000000808      0x334 /tmp/ccYMsAy0.o
+ .debug_abbrev  0x0000000000000b3c      0x121 /tmp/ccYR17Is.o
+ .debug_abbrev  0x0000000000000c5d       0xdf /tmp/cc02Vz3f.o
 
 .debug_aranges  0x0000000000000000      0x160
  .debug_aranges
-                0x0000000000000000       0x30 /tmp/cc5rzya3.o
+                0x0000000000000000       0x30 /tmp/ccJ8ARcN.o
  .debug_aranges
-                0x0000000000000030       0x40 /tmp/ccMsBr6w.o
+                0x0000000000000030       0x40 /tmp/ccAsuLGl.o
  .debug_aranges
-                0x0000000000000070       0x30 /tmp/ccyN3v3j.o
+                0x0000000000000070       0x30 /tmp/ccGo7B4I.o
  .debug_aranges
-                0x00000000000000a0       0x30 /tmp/ccTCoqjY.o
+                0x00000000000000a0       0x30 /tmp/cc7XnT1P.o
  .debug_aranges
-                0x00000000000000d0       0x30 /tmp/cclkRbwD.o
+                0x00000000000000d0       0x30 /tmp/ccYMsAy0.o
  .debug_aranges
-                0x0000000000000100       0x30 /tmp/ccOlH8Qg.o
+                0x0000000000000100       0x30 /tmp/ccYR17Is.o
  .debug_aranges
-                0x0000000000000130       0x30 /tmp/ccOf8C6Y.o
+                0x0000000000000130       0x30 /tmp/cc02Vz3f.o
 
-.debug_str      0x0000000000000000      0x76d
- .debug_str     0x0000000000000000       0x5c /tmp/cc5rzya3.o
- .debug_str     0x000000000000005c      0x3b2 /tmp/ccMsBr6w.o
-                                        0x411 (size before relaxing)
- .debug_str     0x000000000000040e       0x48 /tmp/ccyN3v3j.o
+.debug_str      0x0000000000000000      0x722
+ .debug_str     0x0000000000000000       0x5c /tmp/ccJ8ARcN.o
+ .debug_str     0x000000000000005c      0x35b /tmp/ccAsuLGl.o
+                                        0x3ba (size before relaxing)
+ .debug_str     0x00000000000003b7       0x48 /tmp/ccGo7B4I.o
                                         0x167 (size before relaxing)
- .debug_str     0x0000000000000456      0x1c9 /tmp/ccTCoqjY.o
+ .debug_str     0x00000000000003ff      0x1d0 /tmp/cc7XnT1P.o
                                         0x4d8 (size before relaxing)
- .debug_str     0x000000000000061f      0x11d /tmp/cclkRbwD.o
+ .debug_str     0x00000000000005cf      0x122 /tmp/ccYMsAy0.o
                                         0x2af (size before relaxing)
- .debug_str     0x000000000000073c        0xd /tmp/ccOlH8Qg.o
+ .debug_str     0x00000000000006f1        0xd /tmp/ccYR17Is.o
                                         0x16b (size before relaxing)
- .debug_str     0x0000000000000749       0x24 /tmp/ccOf8C6Y.o
+ .debug_str     0x00000000000006fe       0x24 /tmp/cc02Vz3f.o
                                          0xe2 (size before relaxing)
 
 .debug_loclists
-                0x0000000000000000     0x5c20
+                0x0000000000000000     0x5636
  .debug_loclists
-                0x0000000000000000      0xd55 /tmp/ccMsBr6w.o
+                0x0000000000000000      0x76b /tmp/ccAsuLGl.o
  .debug_loclists
-                0x0000000000000d55      0x3d2 /tmp/ccyN3v3j.o
+                0x000000000000076b      0x3d2 /tmp/ccGo7B4I.o
  .debug_loclists
-                0x0000000000001127     0x3766 /tmp/ccTCoqjY.o
+                0x0000000000000b3d     0x3766 /tmp/cc7XnT1P.o
  .debug_loclists
-                0x000000000000488d     0x10e0 /tmp/cclkRbwD.o
+                0x00000000000042a3     0x10e0 /tmp/ccYMsAy0.o
  .debug_loclists
-                0x000000000000596d      0x121 /tmp/ccOlH8Qg.o
+                0x0000000000005383      0x121 /tmp/ccYR17Is.o
  .debug_loclists
-                0x0000000000005a8e      0x192 /tmp/ccOf8C6Y.o
+                0x00000000000054a4      0x192 /tmp/cc02Vz3f.o
 
 .debug_rnglists
-                0x0000000000000000     0x1077
+                0x0000000000000000      0xe05
  .debug_rnglists
-                0x0000000000000000      0x527 /tmp/ccMsBr6w.o
+                0x0000000000000000      0x2b5 /tmp/ccAsuLGl.o
  .debug_rnglists
-                0x0000000000000527       0xef /tmp/ccyN3v3j.o
+                0x00000000000002b5       0xef /tmp/ccGo7B4I.o
  .debug_rnglists
-                0x0000000000000616      0x689 /tmp/ccTCoqjY.o
+                0x00000000000003a4      0x689 /tmp/cc7XnT1P.o
  .debug_rnglists
-                0x0000000000000c9f      0x3d8 /tmp/cclkRbwD.o
+                0x0000000000000a2d      0x3d8 /tmp/ccYMsAy0.o
 
-.debug_frame    0x0000000000000000      0x870
- .debug_frame   0x0000000000000000       0xb0 /tmp/ccMsBr6w.o
- .debug_frame   0x00000000000000b0       0x50 /tmp/ccyN3v3j.o
- .debug_frame   0x0000000000000100      0x470 /tmp/ccTCoqjY.o
- .debug_frame   0x0000000000000570      0x1f8 /tmp/cclkRbwD.o
- .debug_frame   0x0000000000000768       0xb8 /tmp/ccOlH8Qg.o
- .debug_frame   0x0000000000000820       0x50 /tmp/ccOf8C6Y.o
+.debug_frame    0x0000000000000000      0x838
+ .debug_frame   0x0000000000000000       0x78 /tmp/ccAsuLGl.o
+ .debug_frame   0x0000000000000078       0x50 /tmp/ccGo7B4I.o
+ .debug_frame   0x00000000000000c8      0x470 /tmp/cc7XnT1P.o
+ .debug_frame   0x0000000000000538      0x1f8 /tmp/ccYMsAy0.o
+ .debug_frame   0x0000000000000730       0xb8 /tmp/ccYR17Is.o
+ .debug_frame   0x00000000000007e8       0x50 /tmp/cc02Vz3f.o

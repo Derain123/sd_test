@@ -247,100 +247,6 @@ static int copy(void)
 	return rc;
 }
 
-// --- SD卡单块写测试 ---
-static int sd_write_block(uint32_t sector, const uint8_t *data)
-{
-    int rc = 0;
-    uint16_t crc = 0;
-    int i;
-    // CMD24: 写单块
-    if (sd_cmd(0x58, sector, 0x01) != 0x00) {
-        sd_cmd_end();
-        kputs("sd_write_block: cmd24 fail\r\n");
-        return 1;
-    }
-    // 发送数据起始令牌
-    spi_xfer(0xFE);
-    // 发送数据
-    crc = 0;
-    for (i = 0; i < SECTOR_SIZE_B; ++i) {
-        spi_xfer(data[i]);
-        crc = crc16_round(crc, data[i]);
-    }
-    // 发送CRC
-    spi_xfer(crc >> 8);
-    spi_xfer(crc & 0xFF);
-    // 检查数据响应
-    uint8_t resp = sd_dummy();
-    if ((resp & 0x1F) != 0x05) {
-        kputs("sd_write_block: data reject\r\n");
-        rc = 2;
-    }
-    // 等待写完成
-    while (sd_dummy() == 0) ;
-    sd_cmd_end();
-    return rc;
-}
-
-// --- SD卡单块读测试 ---
-static int sd_read_block(uint32_t sector, uint8_t *data)
-{
-    int rc = 0;
-    uint16_t crc, crc_exp;
-    int i;
-    if (sd_cmd(0x51, sector, 0x01) != 0x00) { // CMD17: 读单块
-        sd_cmd_end();
-        kputs("sd_read_block: cmd17 fail\r\n");
-        return 1;
-    }
-    while (sd_dummy() != 0xFE);
-    crc = 0;
-    for (i = 0; i < SECTOR_SIZE_B; ++i) {
-        uint8_t x = sd_dummy();
-        data[i] = x;
-        crc = crc16_round(crc, x);
-    }
-    crc_exp = ((uint16_t)sd_dummy() << 8);
-    crc_exp |= sd_dummy();
-    if (crc != crc_exp) {
-        kputs("sd_read_block: CRC mismatch\r\n");
-        rc = 2;
-    }
-    sd_cmd_end();
-    return rc;
-}
-
-// --- SD卡读写测试 ---
-static int sd_test_rw(uint32_t sector)
-{
-    uint8_t wbuf[SECTOR_SIZE_B];
-    uint8_t rbuf[SECTOR_SIZE_B];
-    int i, rc = 0;
-    // 填充写入数据
-    for (i = 0; i < SECTOR_SIZE_B; ++i) wbuf[i] = (uint8_t)(i ^ 0xA5);
-    // 写
-    if (sd_write_block(sector, wbuf)) {
-        kputs("sd_test_rw: write fail\r\n");
-        return 1;
-    }
-    // 读
-    if (sd_read_block(sector, rbuf)) {
-        kputs("sd_test_rw: read fail\r\n");
-        return 2;
-    }
-    // 校验
-    for (i = 0; i < SECTOR_SIZE_B; ++i) {
-        if (wbuf[i] != rbuf[i]) {
-            kprintf("sd_test_rw: mismatch at %d: %02x != %02x\r\n", i, wbuf[i], rbuf[i]);
-            rc = 3;
-            break;
-        }
-    }
-    if (rc == 0) kputs("sd_test_rw: PASS\r\n");
-    else kputs("sd_test_rw: FAIL\r\n");
-    return rc;
-}
-
 int main(void)
 {
 	REG32(uart, UART_REG_TXCTRL) = UART_TXEN;
@@ -355,10 +261,8 @@ int main(void)
 		kputs("ERROR");
 		return 1;
 	}
-// --- 调用SD卡读写测试 ---
-	sd_test_rw(BBL_PARTITION_START_SECTOR + 10); // 测试扇区可根据实际情况调整
 
-	// 继续原有copy流程
+	// copy payload.bin to SD card
 	if (copy()) {
 		kputs("ERROR");
 		return 1;
