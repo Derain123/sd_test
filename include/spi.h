@@ -6,65 +6,31 @@
 #include <stdint.h>
 #include "platform.h"
 
-// Xilinx AXI_QUAD_SPI
-
+// SiFive SPI控制器基地址
 #define SPI_BASE ((uint32_t)SPI_CTRL_ADDR)
-
-// Global interrupt enable register [Write]
-#define SPI_GIER 0x07u
-
-// IP interrupt status register [Read/Toggle to write]
-#define SPI_ISR 0x08u
-
-// IP interrupt enable register [Read/Write]
-#define SPI_IER 0x0Au
-
-// Software reset register [Write]
-#define SPI_SRR 0x10u
-
-// SPI control register [Read/Write]
-#define SPI_CR 0x18u
-
-// SPI status register [Read]
-#define SPI_SR 0x19u
-
-// SPI data transmit register, FIFO-16 [Write]
-#define SPI_DTR 0x1Au
-
-// SPI data receive register, FIFO-16 [Read]
-#define SPI_DRR 0x1Bu
-
-// SPI Slave select register, [Read/Write]
-#define SPI_SSR 0x1Cu
-
-// Transmit FIFO occupancy register [Read]
-#define SPI_TFOR 0x1Du
-
-// Receive FIFO occupancy register [Read]
-#define SPI_RFROR 0x1Eu
 
 /////////////////////////////
 // SPI APIs
 
-// start spi
+// 初始化SPI控制器
 void spi_init();
 
-// disable spi
+// 禁用SPI控制器
 void spi_disable();
 
-// send a byte
+// 发送一个字节并接收一个字节
 uint8_t spi_send(uint8_t dat);
 
-// send multiple byte, n<=16
+// 发送多个字节，n<=16
 void spi_send_multi(const uint8_t* dat, uint8_t n);
 
-// recv multiple byte, n<=16
+// 接收多个字节，n<=16
 void spi_recv_multi(uint8_t* dat, uint8_t n);
 
-// select slave device
+// 选择从机设备
 void spi_select_slave(uint8_t id);
 
-// deselect slave device
+// 取消选择从机设备
 void spi_deselect_slave(uint8_t id);
 
 #endif

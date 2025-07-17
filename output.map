@@ -8,31 +8,31 @@ memory_mem       0x0000000080000000 0x0000000040000000 xrw
 
 Linker script and memory map
 
-LOAD /tmp/ccJ8ARcN.o
-LOAD /tmp/ccAsuLGl.o
-LOAD /tmp/ccGo7B4I.o
-LOAD /tmp/cc7XnT1P.o
-LOAD /tmp/ccYMsAy0.o
-LOAD /tmp/ccYR17Is.o
-LOAD /tmp/cc02Vz3f.o
+LOAD /tmp/cc1TydvS.o
+LOAD /tmp/cc9pKbjh.o
+LOAD /tmp/ccBS4E46.o
+LOAD /tmp/cc2r5ziL.o
+LOAD /tmp/ccRKNoxo.o
+LOAD /tmp/ccldPMH7.o
+LOAD /tmp/cciCJVwW.o
                 [!provide]                        PROVIDE (_ram = ORIGIN (memory_mem))
                 [!provide]                        PROVIDE (_ram_end = (_ram + LENGTH (memory_mem)))
 
-.text           0x0000000000010000     0x2db0
+.text           0x0000000000010000     0x2da8
                 [!provide]                        PROVIDE (_ftext = .)
  *(.text.init)
- .text.init     0x0000000000010000       0x94 /tmp/ccJ8ARcN.o
+ .text.init     0x0000000000010000       0x94 /tmp/cc1TydvS.o
                 0x0000000000010000                _prog_start
  *(.text.unlikely .text.unlikely.*)
  *(.text .text.* .gnu.linkonce.t.*)
- .text          0x0000000000010094        0x0 /tmp/ccJ8ARcN.o
- .text          0x0000000000010094       0xf8 /tmp/ccAsuLGl.o
- .text.startup  0x000000000001018c      0x480 /tmp/ccAsuLGl.o
+ .text          0x0000000000010094        0x0 /tmp/cc1TydvS.o
+ .text          0x0000000000010094       0xf8 /tmp/cc9pKbjh.o
+ .text.startup  0x000000000001018c      0x480 /tmp/cc9pKbjh.o
                 0x000000000001018c                main
- .text          0x000000000001060c      0x1e0 /tmp/ccGo7B4I.o
+ .text          0x000000000001060c      0x1e0 /tmp/ccBS4E46.o
                 0x000000000001060c                kputs
                 0x000000000001065c                kprintf
- .text          0x00000000000107ec     0x18ec /tmp/cc7XnT1P.o
+ .text          0x00000000000107ec     0x18ec /tmp/cc2r5ziL.o
                 0x0000000000011664                clust2sect
                 0x0000000000011694                get_fat
                 0x00000000000116b0                f_mount
@@ -42,236 +42,237 @@ LOAD /tmp/cc02Vz3f.o
                 0x0000000000011bfc                f_chdrive
                 0x0000000000011c3c                f_chdir
                 0x0000000000011d10                f_getcwd
- .text          0x00000000000120d8      0xb08 /tmp/ccYMsAy0.o
+ .text          0x00000000000120d8      0xb08 /tmp/ccRKNoxo.o
                 0x0000000000012464                disk_initialize
                 0x0000000000012650                disk_status
                 0x0000000000012668                disk_read
                 0x000000000001274c                disk_write
                 0x0000000000012870                disk_ioctl
- .text          0x0000000000012be0      0x13c /tmp/ccYR17Is.o
+ .text          0x0000000000012be0      0x134 /tmp/ccldPMH7.o
                 0x0000000000012be0                spi_init
-                0x0000000000012c14                spi_disable
-                0x0000000000012c30                spi_send
-                0x0000000000012c54                spi_send_multi
-                0x0000000000012c8c                spi_recv_multi
+                0x0000000000012c10                spi_disable
+                0x0000000000012c1c                spi_send
+                0x0000000000012c3c                spi_send_multi
+                0x0000000000012c9c                spi_recv_multi
                 0x0000000000012cf4                spi_select_slave
                 0x0000000000012d08                spi_deselect_slave
- .text          0x0000000000012d1c       0x54 /tmp/cc02Vz3f.o
-                0x0000000000012d1c                memset
-                0x0000000000012d4c                memcpy
+ .text          0x0000000000012d14       0x54 /tmp/cciCJVwW.o
+                0x0000000000012d14                memset
+                0x0000000000012d44                memcpy
                 [!provide]                        PROVIDE (_etext = .)
-                0x0000000000012db0                . = (. + 0x40)
- *fill*         0x0000000000012d70       0x40 
+                0x0000000000012da8                . = (. + 0x40)
+ *fill*         0x0000000000012d68       0x40 
 
-.eh_frame       0x0000000000012db0        0x0
+.eh_frame       0x0000000000012da8        0x0
  *(.eh_frame)
 
-.srodata        0x0000000000012db0        0x4
+.srodata        0x0000000000012da8        0x4
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
  *(.srodata.cst2)
  *(.srodata.*)
- .srodata       0x0000000000012db0        0x4 /tmp/ccAsuLGl.o
+ .srodata       0x0000000000012da8        0x4 /tmp/cc9pKbjh.o
 
-.data           0x0000000000012db8        0x0
+.data           0x0000000000012db0        0x0
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x0000000000012db8        0x0 /tmp/ccJ8ARcN.o
- .data          0x0000000000012db8        0x0 /tmp/ccAsuLGl.o
- .data          0x0000000000012db8        0x0 /tmp/ccGo7B4I.o
- .data          0x0000000000012db8        0x0 /tmp/cc7XnT1P.o
- .data          0x0000000000012db8        0x0 /tmp/ccYMsAy0.o
- .data          0x0000000000012db8        0x0 /tmp/ccYR17Is.o
- .data          0x0000000000012db8        0x0 /tmp/cc02Vz3f.o
+ .data          0x0000000000012db0        0x0 /tmp/cc1TydvS.o
+ .data          0x0000000000012db0        0x0 /tmp/cc9pKbjh.o
+ .data          0x0000000000012db0        0x0 /tmp/ccBS4E46.o
+ .data          0x0000000000012db0        0x0 /tmp/cc2r5ziL.o
+ .data          0x0000000000012db0        0x0 /tmp/ccRKNoxo.o
+ .data          0x0000000000012db0        0x0 /tmp/ccldPMH7.o
+ .data          0x0000000000012db0        0x0 /tmp/cciCJVwW.o
  *(.tohost)
 
-.sdata          0x0000000000012db8        0x1
+.sdata          0x0000000000012db0       0x10
  *(.sdata .sdata.* .gnu.linkonce.s.*)
- .sdata         0x0000000000012db8        0x1 /tmp/ccYMsAy0.o
+ .sdata         0x0000000000012db0        0x1 /tmp/ccRKNoxo.o
+ *fill*         0x0000000000012db1        0x7 
+ .sdata         0x0000000000012db8        0x8 /tmp/ccldPMH7.o
+                0x0000000000012db8                spi_base_ptr
 
 .rodata         0x0000000000012dc0      0x288
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.8
-                0x0000000000012dc0      0x13d /tmp/ccAsuLGl.o
+                0x0000000000012dc0      0x13d /tmp/cc9pKbjh.o
  *fill*         0x0000000000012efd        0x3 
- .rodata        0x0000000000012f00       0x58 /tmp/ccGo7B4I.o
+ .rodata        0x0000000000012f00       0x58 /tmp/ccBS4E46.o
  .rodata.str1.8
-                0x0000000000012f58        0xf /tmp/cc7XnT1P.o
+                0x0000000000012f58        0xf /tmp/cc2r5ziL.o
  *fill*         0x0000000000012f67        0x1 
- .rodata        0x0000000000012f68       0xdc /tmp/ccYMsAy0.o
+ .rodata        0x0000000000012f68       0xdc /tmp/ccRKNoxo.o
  *(.dtb)
  *fill*         0x0000000000013044        0x4 
- .dtb           0x0000000000013048        0x0 /tmp/ccJ8ARcN.o
+ .dtb           0x0000000000013048        0x0 /tmp/cc1TydvS.o
                 [!provide]                        PROVIDE (_data = ADDR (.rodata))
                 [!provide]                        PROVIDE (_data_lma = LOADADDR (.rodata))
                 [!provide]                        PROVIDE (_edata = .)
 
-.bss            0x0000000080000000      0x250
+.bss            0x0000000080000000      0x248
                 [!provide]                        PROVIDE (_fbss = .)
                 [!provide]                        PROVIDE (__global_pointer$ = (. + 0x7c0))
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
- .sbss          0x0000000080000000        0x4 /tmp/cc7XnT1P.o
- .sbss          0x0000000080000004        0x1 /tmp/ccYMsAy0.o
- *fill*         0x0000000080000005        0x3 
- .sbss          0x0000000080000008        0x8 /tmp/ccYR17Is.o
-                0x0000000080000008                spi_base_ptr
+ .sbss          0x0000000080000000        0x4 /tmp/cc2r5ziL.o
+ .sbss          0x0000000080000004        0x1 /tmp/ccRKNoxo.o
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x0000000080000010        0x0 /tmp/ccJ8ARcN.o
- .bss           0x0000000080000010      0x22c /tmp/ccAsuLGl.o
-                0x0000000080000010                FatFs
- .bss           0x000000008000023c        0x0 /tmp/ccGo7B4I.o
- *fill*         0x000000008000023c        0x4 
- .bss           0x0000000080000240       0x10 /tmp/cc7XnT1P.o
- .bss           0x0000000080000250        0x0 /tmp/ccYMsAy0.o
- .bss           0x0000000080000250        0x0 /tmp/ccYR17Is.o
- .bss           0x0000000080000250        0x0 /tmp/cc02Vz3f.o
-                0x0000000080000250                . = ALIGN (0x8)
-                0x0000000080000250                PROVIDE (_ebss = .)
+ .bss           0x0000000080000005        0x0 /tmp/cc1TydvS.o
+ *fill*         0x0000000080000005        0x3 
+ .bss           0x0000000080000008      0x22c /tmp/cc9pKbjh.o
+                0x0000000080000008                FatFs
+ .bss           0x0000000080000234        0x0 /tmp/ccBS4E46.o
+ *fill*         0x0000000080000234        0x4 
+ .bss           0x0000000080000238       0x10 /tmp/cc2r5ziL.o
+ .bss           0x0000000080000248        0x0 /tmp/ccRKNoxo.o
+ .bss           0x0000000080000248        0x0 /tmp/ccldPMH7.o
+ .bss           0x0000000080000248        0x0 /tmp/cciCJVwW.o
+                0x0000000080000248                . = ALIGN (0x8)
+                0x0000000080000248                PROVIDE (_ebss = .)
                 [!provide]                        PROVIDE (_end = .)
-                0x0000000080100250                PROVIDE (_sp = ALIGN ((MIN ((ORIGIN (memory_mem) + LENGTH (memory_mem)), (_ebss + 0x100000)) - 0x7), 0x8))
+                0x0000000080100248                PROVIDE (_sp = ALIGN ((MIN ((ORIGIN (memory_mem) + LENGTH (memory_mem)), (_ebss + 0x100000)) - 0x7), 0x8))
                 [!provide]                        PROVIDE (_heap_end = (_sp - 0x800))
 
-.stack          0x0000000080000250        0x0
+.stack          0x0000000080000248        0x0
                 0x0000000000000001                ASSERT ((_sp >= (_ebss + 0x1000)), Error: No room left for the heap and stack)
 OUTPUT(/home/dean/workspace/CODE/chipyard/fpga/src/main/resources/vcu118/sdboot//build/sdboot.elf elf64-littleriscv)
 
 .riscv.attributes
                 0x0000000000000000       0x2a
  .riscv.attributes
-                0x0000000000000000       0x28 /tmp/ccJ8ARcN.o
+                0x0000000000000000       0x28 /tmp/cc1TydvS.o
  .riscv.attributes
-                0x0000000000000028       0x26 /tmp/ccAsuLGl.o
+                0x0000000000000028       0x26 /tmp/cc9pKbjh.o
  .riscv.attributes
-                0x000000000000004e       0x26 /tmp/ccGo7B4I.o
+                0x000000000000004e       0x26 /tmp/ccBS4E46.o
  .riscv.attributes
-                0x0000000000000074       0x26 /tmp/cc7XnT1P.o
+                0x0000000000000074       0x26 /tmp/cc2r5ziL.o
  .riscv.attributes
-                0x000000000000009a       0x26 /tmp/ccYMsAy0.o
+                0x000000000000009a       0x26 /tmp/ccRKNoxo.o
  .riscv.attributes
-                0x00000000000000c0       0x26 /tmp/ccYR17Is.o
+                0x00000000000000c0       0x26 /tmp/ccldPMH7.o
  .riscv.attributes
-                0x00000000000000e6       0x26 /tmp/cc02Vz3f.o
+                0x00000000000000e6       0x26 /tmp/cciCJVwW.o
 
 .comment        0x0000000000000000       0x1b
- .comment       0x0000000000000000       0x1b /tmp/ccAsuLGl.o
+ .comment       0x0000000000000000       0x1b /tmp/cc9pKbjh.o
                                          0x1c (size before relaxing)
- .comment       0x000000000000001b       0x1c /tmp/ccGo7B4I.o
- .comment       0x000000000000001b       0x1c /tmp/cc7XnT1P.o
- .comment       0x000000000000001b       0x1c /tmp/ccYMsAy0.o
- .comment       0x000000000000001b       0x1c /tmp/ccYR17Is.o
- .comment       0x000000000000001b       0x1c /tmp/cc02Vz3f.o
+ .comment       0x000000000000001b       0x1c /tmp/ccBS4E46.o
+ .comment       0x000000000000001b       0x1c /tmp/cc2r5ziL.o
+ .comment       0x000000000000001b       0x1c /tmp/ccRKNoxo.o
+ .comment       0x000000000000001b       0x1c /tmp/ccldPMH7.o
+ .comment       0x000000000000001b       0x1c /tmp/cciCJVwW.o
 
-.debug_line     0x0000000000000000     0x614d
- .debug_line    0x0000000000000000       0x74 /tmp/ccJ8ARcN.o
- .debug_line    0x0000000000000074      0xd48 /tmp/ccAsuLGl.o
- .debug_line    0x0000000000000dbc      0x487 /tmp/ccGo7B4I.o
- .debug_line    0x0000000000001243     0x34ed /tmp/cc7XnT1P.o
- .debug_line    0x0000000000004730     0x1575 /tmp/ccYMsAy0.o
- .debug_line    0x0000000000005ca5      0x39d /tmp/ccYR17Is.o
- .debug_line    0x0000000000006042      0x10b /tmp/cc02Vz3f.o
+.debug_line     0x0000000000000000     0x61e1
+ .debug_line    0x0000000000000000       0x74 /tmp/cc1TydvS.o
+ .debug_line    0x0000000000000074      0xd48 /tmp/cc9pKbjh.o
+ .debug_line    0x0000000000000dbc      0x487 /tmp/ccBS4E46.o
+ .debug_line    0x0000000000001243     0x34ed /tmp/cc2r5ziL.o
+ .debug_line    0x0000000000004730     0x1575 /tmp/ccRKNoxo.o
+ .debug_line    0x0000000000005ca5      0x431 /tmp/ccldPMH7.o
+ .debug_line    0x00000000000060d6      0x10b /tmp/cciCJVwW.o
 
 .debug_line_str
                 0x0000000000000000      0x241
  .debug_line_str
-                0x0000000000000000       0x50 /tmp/ccJ8ARcN.o
+                0x0000000000000000       0x50 /tmp/cc1TydvS.o
  .debug_line_str
-                0x0000000000000050      0x139 /tmp/ccAsuLGl.o
+                0x0000000000000050      0x139 /tmp/cc9pKbjh.o
                                         0x1d5 (size before relaxing)
  .debug_line_str
-                0x0000000000000189       0x78 /tmp/ccGo7B4I.o
+                0x0000000000000189       0x78 /tmp/ccBS4E46.o
                                         0x1fb (size before relaxing)
  .debug_line_str
-                0x0000000000000201        0xe /tmp/cc7XnT1P.o
+                0x0000000000000201        0xe /tmp/cc2r5ziL.o
                                         0x1d4 (size before relaxing)
  .debug_line_str
-                0x000000000000020f        0xf /tmp/ccYMsAy0.o
+                0x000000000000020f        0xf /tmp/ccRKNoxo.o
                                         0x1e1 (size before relaxing)
  .debug_line_str
-                0x000000000000021e        0x6 /tmp/ccYR17Is.o
+                0x000000000000021e        0x6 /tmp/ccldPMH7.o
                                         0x177 (size before relaxing)
  .debug_line_str
-                0x0000000000000224       0x1d /tmp/cc02Vz3f.o
+                0x0000000000000224       0x1d /tmp/cciCJVwW.o
                                         0x126 (size before relaxing)
 
-.debug_info     0x0000000000000000     0x48ae
- .debug_info    0x0000000000000000       0x29 /tmp/ccJ8ARcN.o
- .debug_info    0x0000000000000029     0x117e /tmp/ccAsuLGl.o
- .debug_info    0x00000000000011a7      0x3a8 /tmp/ccGo7B4I.o
- .debug_info    0x000000000000154f     0x1c84 /tmp/cc7XnT1P.o
- .debug_info    0x00000000000031d3     0x1366 /tmp/ccYMsAy0.o
- .debug_info    0x0000000000004539      0x212 /tmp/ccYR17Is.o
- .debug_info    0x000000000000474b      0x163 /tmp/cc02Vz3f.o
+.debug_info     0x0000000000000000     0x4908
+ .debug_info    0x0000000000000000       0x29 /tmp/cc1TydvS.o
+ .debug_info    0x0000000000000029     0x117e /tmp/cc9pKbjh.o
+ .debug_info    0x00000000000011a7      0x3a8 /tmp/ccBS4E46.o
+ .debug_info    0x000000000000154f     0x1c84 /tmp/cc2r5ziL.o
+ .debug_info    0x00000000000031d3     0x1366 /tmp/ccRKNoxo.o
+ .debug_info    0x0000000000004539      0x26c /tmp/ccldPMH7.o
+ .debug_info    0x00000000000047a5      0x163 /tmp/cciCJVwW.o
 
-.debug_abbrev   0x0000000000000000      0xd3c
- .debug_abbrev  0x0000000000000000       0x14 /tmp/ccJ8ARcN.o
- .debug_abbrev  0x0000000000000014      0x340 /tmp/ccAsuLGl.o
- .debug_abbrev  0x0000000000000354      0x19d /tmp/ccGo7B4I.o
- .debug_abbrev  0x00000000000004f1      0x317 /tmp/cc7XnT1P.o
- .debug_abbrev  0x0000000000000808      0x334 /tmp/ccYMsAy0.o
- .debug_abbrev  0x0000000000000b3c      0x121 /tmp/ccYR17Is.o
- .debug_abbrev  0x0000000000000c5d       0xdf /tmp/cc02Vz3f.o
+.debug_abbrev   0x0000000000000000      0xd22
+ .debug_abbrev  0x0000000000000000       0x14 /tmp/cc1TydvS.o
+ .debug_abbrev  0x0000000000000014      0x340 /tmp/cc9pKbjh.o
+ .debug_abbrev  0x0000000000000354      0x19d /tmp/ccBS4E46.o
+ .debug_abbrev  0x00000000000004f1      0x317 /tmp/cc2r5ziL.o
+ .debug_abbrev  0x0000000000000808      0x334 /tmp/ccRKNoxo.o
+ .debug_abbrev  0x0000000000000b3c      0x107 /tmp/ccldPMH7.o
+ .debug_abbrev  0x0000000000000c43       0xdf /tmp/cciCJVwW.o
 
 .debug_aranges  0x0000000000000000      0x160
  .debug_aranges
-                0x0000000000000000       0x30 /tmp/ccJ8ARcN.o
+                0x0000000000000000       0x30 /tmp/cc1TydvS.o
  .debug_aranges
-                0x0000000000000030       0x40 /tmp/ccAsuLGl.o
+                0x0000000000000030       0x40 /tmp/cc9pKbjh.o
  .debug_aranges
-                0x0000000000000070       0x30 /tmp/ccGo7B4I.o
+                0x0000000000000070       0x30 /tmp/ccBS4E46.o
  .debug_aranges
-                0x00000000000000a0       0x30 /tmp/cc7XnT1P.o
+                0x00000000000000a0       0x30 /tmp/cc2r5ziL.o
  .debug_aranges
-                0x00000000000000d0       0x30 /tmp/ccYMsAy0.o
+                0x00000000000000d0       0x30 /tmp/ccRKNoxo.o
  .debug_aranges
-                0x0000000000000100       0x30 /tmp/ccYR17Is.o
+                0x0000000000000100       0x30 /tmp/ccldPMH7.o
  .debug_aranges
-                0x0000000000000130       0x30 /tmp/cc02Vz3f.o
+                0x0000000000000130       0x30 /tmp/cciCJVwW.o
 
 .debug_str      0x0000000000000000      0x722
- .debug_str     0x0000000000000000       0x5c /tmp/ccJ8ARcN.o
- .debug_str     0x000000000000005c      0x35b /tmp/ccAsuLGl.o
+ .debug_str     0x0000000000000000       0x5c /tmp/cc1TydvS.o
+ .debug_str     0x000000000000005c      0x35b /tmp/cc9pKbjh.o
                                         0x3ba (size before relaxing)
- .debug_str     0x00000000000003b7       0x48 /tmp/ccGo7B4I.o
+ .debug_str     0x00000000000003b7       0x48 /tmp/ccBS4E46.o
                                         0x167 (size before relaxing)
- .debug_str     0x00000000000003ff      0x1d0 /tmp/cc7XnT1P.o
+ .debug_str     0x00000000000003ff      0x1d0 /tmp/cc2r5ziL.o
                                         0x4d8 (size before relaxing)
- .debug_str     0x00000000000005cf      0x122 /tmp/ccYMsAy0.o
+ .debug_str     0x00000000000005cf      0x122 /tmp/ccRKNoxo.o
                                         0x2af (size before relaxing)
- .debug_str     0x00000000000006f1        0xd /tmp/ccYR17Is.o
-                                        0x16b (size before relaxing)
- .debug_str     0x00000000000006fe       0x24 /tmp/cc02Vz3f.o
+ .debug_str     0x00000000000006f1        0xd /tmp/ccldPMH7.o
+                                        0x178 (size before relaxing)
+ .debug_str     0x00000000000006fe       0x24 /tmp/cciCJVwW.o
                                          0xe2 (size before relaxing)
 
 .debug_loclists
-                0x0000000000000000     0x5636
+                0x0000000000000000     0x5689
  .debug_loclists
-                0x0000000000000000      0x76b /tmp/ccAsuLGl.o
+                0x0000000000000000      0x76b /tmp/cc9pKbjh.o
  .debug_loclists
-                0x000000000000076b      0x3d2 /tmp/ccGo7B4I.o
+                0x000000000000076b      0x3d2 /tmp/ccBS4E46.o
  .debug_loclists
-                0x0000000000000b3d     0x3766 /tmp/cc7XnT1P.o
+                0x0000000000000b3d     0x3766 /tmp/cc2r5ziL.o
  .debug_loclists
-                0x00000000000042a3     0x10e0 /tmp/ccYMsAy0.o
+                0x00000000000042a3     0x10e0 /tmp/ccRKNoxo.o
  .debug_loclists
-                0x0000000000005383      0x121 /tmp/ccYR17Is.o
+                0x0000000000005383      0x174 /tmp/ccldPMH7.o
  .debug_loclists
-                0x00000000000054a4      0x192 /tmp/cc02Vz3f.o
+                0x00000000000054f7      0x192 /tmp/cciCJVwW.o
 
 .debug_rnglists
                 0x0000000000000000      0xe05
  .debug_rnglists
-                0x0000000000000000      0x2b5 /tmp/ccAsuLGl.o
+                0x0000000000000000      0x2b5 /tmp/cc9pKbjh.o
  .debug_rnglists
-                0x00000000000002b5       0xef /tmp/ccGo7B4I.o
+                0x00000000000002b5       0xef /tmp/ccBS4E46.o
  .debug_rnglists
-                0x00000000000003a4      0x689 /tmp/cc7XnT1P.o
+                0x00000000000003a4      0x689 /tmp/cc2r5ziL.o
  .debug_rnglists
-                0x0000000000000a2d      0x3d8 /tmp/ccYMsAy0.o
+                0x0000000000000a2d      0x3d8 /tmp/ccRKNoxo.o
 
-.debug_frame    0x0000000000000000      0x838
- .debug_frame   0x0000000000000000       0x78 /tmp/ccAsuLGl.o
- .debug_frame   0x0000000000000078       0x50 /tmp/ccGo7B4I.o
- .debug_frame   0x00000000000000c8      0x470 /tmp/cc7XnT1P.o
- .debug_frame   0x0000000000000538      0x1f8 /tmp/ccYMsAy0.o
- .debug_frame   0x0000000000000730       0xb8 /tmp/ccYR17Is.o
- .debug_frame   0x00000000000007e8       0x50 /tmp/cc02Vz3f.o
+.debug_frame    0x0000000000000000      0x840
+ .debug_frame   0x0000000000000000       0x78 /tmp/cc9pKbjh.o
+ .debug_frame   0x0000000000000078       0x50 /tmp/ccBS4E46.o
+ .debug_frame   0x00000000000000c8      0x470 /tmp/cc2r5ziL.o
+ .debug_frame   0x0000000000000538      0x1f8 /tmp/ccRKNoxo.o
+ .debug_frame   0x0000000000000730       0xc0 /tmp/ccldPMH7.o
+ .debug_frame   0x00000000000007f0       0x50 /tmp/cciCJVwW.o
