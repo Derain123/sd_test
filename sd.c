@@ -201,6 +201,7 @@ static int copy(void)
 		kputs("Fail to mount SD filesystem!\r\n");
 		return 1;
 	}
+	kprintf("Mounted SD filesystem\r\n");
 
 	// Open the payload file
 	fr = f_open(&fil, "payload.bin", FA_READ);
@@ -209,6 +210,7 @@ static int copy(void)
 		f_mount(NULL, "", 1); // unmount
 		return (int)fr;
 	}
+	kprintf("Opened payload.bin\r\n");
 
 	// Read file into memory
 	uint32_t total_read = 0;
@@ -217,12 +219,16 @@ static int copy(void)
 		buf += br;
 		fsize += br;
 		total_read += br;
+
+		kprintf("Read %d bytes\r\n", br);
 		
 		// Update spinner
 		if (SPIN_UPDATE(total_read >> 12)) { // Update every 4KB
 			kputc('\b');
 			kputc(spinner[SPIN_INDEX(total_read >> 12)]);
 		}
+
+		kprintf("Total read: %d bytes\r\n", total_read);
 		
 		// Limit to maximum payload size
 		if (total_read >= PAYLOAD_SIZE_B) {

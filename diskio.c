@@ -69,8 +69,13 @@
 #define CMD58   (58)        /* READ_OCR */
 
 
-static volatile
-DSTATUS Stat = STA_NOINIT;  /* Disk status */
+/* Stat变量在BSS段中定义，运行时初始化为1 */
+static volatile DSTATUS Stat;  /* Disk status */
+
+/* 初始化Stat变量 */
+static void init_stat(void) {
+    Stat = 1;
+}
 
 static
 uint8_t CardType;          /* Card type flags */
@@ -325,6 +330,9 @@ DSTATUS disk_initialize (
   uint32_t timeout;
   uint32_t acmd_delay = 100*1000;
   // printf("[DISK_INIT]disk init starts ... \n\r", 0);
+
+  /* 初始化Stat变量 */
+  init_stat();
 
   if (pdrv) return STA_NOINIT;        /* Supports only single drive */
   power_off();                        /* Turn off the socket power to reset the card */
