@@ -59,7 +59,7 @@ void spi_send_multi(const uint8_t* dat, uint8_t n) {
   }
   
   // 等待所有数据发送完成
-  while(!GetBit(SPI_REG(SPI_REG_TXCTRL), 31));
+  // while(!GetBit(SPI_REG(SPI_REG_TXCTRL), 31));
   
   // 清空接收FIFO
   for(i = 0; i < n; i++) {
@@ -79,7 +79,7 @@ void spi_recv_multi(uint8_t* dat, uint8_t n) {
   }
   
   // 等待所有数据发送完成
-  while(!GetBit(SPI_REG(SPI_REG_TXCTRL), 31));
+  // while(!GetBit(SPI_REG(SPI_REG_TXCTRL), 31));
   
   // 接收数据
   for(i = 0; i < n; i++) {
